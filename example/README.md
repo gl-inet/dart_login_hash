@@ -85,9 +85,6 @@ dependencies:
             ).then(
                 (value) {
                 Map result = jsonDecode(value.data)['result'];
-                setState(() {
-                    status = result;
-                });
                 print(result);
               },
             );

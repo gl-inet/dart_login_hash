@@ -34,9 +34,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final String url = 'http://192.168.10.1/rpc';
+  final String url = 'http://192.168.8.1/rpc';
   final String username = 'root';
-  final String password = 'goodlife12';
+  final String password = 'goodlife';
 
   Map? status;
 

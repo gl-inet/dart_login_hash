@@ -18,7 +18,7 @@ A demo for GL.iNet login and get status
         'params': {
             'username': username,
         }
-        },
+      },
     ).then(
         (value) {
         Map result = jsonDecode(value.data)['result'];
@@ -54,7 +54,7 @@ A demo for GL.iNet login and get status
                 'username': username,
                 'hash': hash,
             }
-            },
+          },
         ).then(
             (value) {
             Map result = jsonDecode(value.data)['result'];
@@ -81,8 +81,8 @@ A demo for GL.iNet login and get status
                 print(result);
                 },
             );
-            },
+          },
         );
-        },
+      },
     );
 ```

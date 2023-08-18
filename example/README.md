@@ -2,6 +2,15 @@
 
 A demo for GL.iNet login and get status
 
+# pubspec.yaml
+
+dependencies:
+  dio: any
+  crypto: any
+  gl_crypt:
+    git:
+      url: https://github.com/gl-inet/gl_crypt_dart.git
+
 ## Usage
 
 ```dart
@@ -51,8 +60,8 @@ A demo for GL.iNet login and get status
             'jsonrpc': '2.0',
             'method': 'login',
             'params': {
-                'username': username,
-                'hash': hash,
+              'username': username,
+              'hash': hash,
             }
           },
         ).then(
@@ -71,7 +80,7 @@ A demo for GL.iNet login and get status
                     'system',
                     'get_status',
                 ]
-                },
+              },
             ).then(
                 (value) {
                 Map result = jsonDecode(value.data)['result'];
@@ -79,7 +88,7 @@ A demo for GL.iNet login and get status
                     status = result;
                 });
                 print(result);
-                },
+              },
             );
           },
         );

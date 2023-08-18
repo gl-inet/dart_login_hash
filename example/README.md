@@ -3,13 +3,14 @@
 A demo for GL.iNet login and get status
 
 # pubspec.yaml
-
+```dart
 dependencies:
   dio: any
   crypto: any
   gl_crypt:
     git:
       url: https://github.com/gl-inet/gl_crypt_dart.git
+```
 
 ## Usage
 

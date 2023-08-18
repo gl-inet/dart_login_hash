@@ -1,16 +1,88 @@
 # example
 
-A new Flutter project.
+A demo for GL.iNet login and get status
 
-## Getting Started
+## Usage
 
-This project is a starting point for a Flutter application.
+```dart
+    final String url = 'http://192.168.10.1/rpc';
+    final String username = 'root';
+    final String password = 'goodlife12';
 
-A few resources to get you started if this is your first Flutter project:
+    // Step1: Get encryption parameters by challenge method
+    Dio().post(
+        url,
+        data: {
+        'jsonrpc': '2.0',
+        'method': 'challenge',
+        'params': {
+            'username': username,
+        }
+        },
+    ).then(
+        (value) {
+        Map result = jsonDecode(value.data)['result'];
+        int alg = result['alg'];
+        String salt = result['salt'];
+        String nonce = result['nonce'];
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+        // Step2: Generate cipher text using Crypt
+        Crypt? pw;
+        switch (alg) {
+            case 1:
+            pw = Crypt.md5(password, salt: salt);
+            break;
+            case 5:
+            pw = Crypt.sha256(password, salt: salt);
+            break;
+            case 6:
+            pw = Crypt.sha512(password, salt: salt);
+            break;
+            default:
+        }
+        // Step3: Generate hash values for login
+        String hash =
+            md5.convert(utf8.encode('$username:$pw:$nonce')).toString();
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+        // Step4: Get sid by login
+        Dio().post(
+            url,
+            data: {
+            'jsonrpc': '2.0',
+            'method': 'login',
+            'params': {
+                'username': username,
+                'hash': hash,
+            }
+            },
+        ).then(
+            (value) {
+            Map result = jsonDecode(value.data)['result'];
+            String sid = result['sid'];
+
+            // Step5: Calling other APIs with sid
+            Dio().post(
+                url,
+                data: {
+                'jsonrpc': '2.0',
+                'method': 'call',
+                'params': [
+                    sid,
+                    'system',
+                    'get_status',
+                ]
+                },
+            ).then(
+                (value) {
+                Map result = jsonDecode(value.data)['result'];
+                setState(() {
+                    status = result;
+                });
+                print(result);
+                },
+            );
+            },
+        );
+        },
+    );
+```

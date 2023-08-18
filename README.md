@@ -6,13 +6,11 @@ A package for calculating login ciphertext for GL.iNet routers
 
 ## Usage
 
-
 ```dart
     int alg = 1;
     String salt = "shGzEq91";
     String nonce = "SGgyhFWf3lFrIpX2BFImBjE1gv2AKPC2";
 
-    // Step2: Generate cipher text using Crypt
     Crypt? pw;
     switch (alg) {
         case 1:
